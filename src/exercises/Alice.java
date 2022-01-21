@@ -7,7 +7,7 @@ public class Alice {
         Scanner input = new Scanner(System.in);
         System.out.println("Search word in first sentence:");
         String term = input.nextLine();
-        Boolean doesContain = sentence.toLowerCase().contains(term.toLowerCase());
+        boolean doesContain = sentence.toLowerCase().contains(term.toLowerCase());
         input.close();
         System.out.println("Search found: " + doesContain);
         String segment0 = "";

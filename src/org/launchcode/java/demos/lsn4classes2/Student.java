@@ -1,5 +1,7 @@
 package org.launchcode.java.demos.lsn4classes2;
 
+import java.util.Objects;
+
 public class Student {
 
     private static int nextStudentId = 1;
@@ -30,20 +32,63 @@ public class Student {
 
 
      //TODO: Uncomment and complete the getGradeLevel method here:
-//    public String getGradeLevel() {
-//        // Determine the grade level of the student based on numberOfCredits
-//    }
+    public String getGradeLevel() {
+        // Determine the grade level of the student based on numberOfCredits
+        System.out.println(this.numberOfCredits);
+        if (this.numberOfCredits >= 0 && this.numberOfCredits <= 29) {
+            System.out.println("0-29: true");
+            return "Freshman";
+        } else if (this.numberOfCredits >= 30 && this.numberOfCredits <= 59) {
+            System.out.println("30-59: true");
+            return "Sophomore";
+        } else if (this.numberOfCredits >= 60 && this.numberOfCredits <= 89) {
+            System.out.println("60-89: true");
+            return "Junior";
+        } else if (this.numberOfCredits >= 90) {
+            System.out.println("90+: true");
+            return "Senior";
+        }
+        return "Failure";
+    }
 
     // TODO: Complete the addGrade method.
     public void addGrade(int courseCredits, double grade) {
         // Update the appropriate fields: numberOfCredits, gpa
+        double totalQualityScore = courseCredits * grade + this.gpa * this.numberOfCredits;
+        double totalNumberOfCredits = this.numberOfCredits + courseCredits;
+        this.gpa = totalQualityScore / totalNumberOfCredits;
     }
 
     // TODO: Add your custom 'toString' method here. Make sure it returns a well-formatted String rather
     //  than just the class fields.
+//    public String toString(){
+//        return name + " (Credits: " + numberOfCredits + ", GPA: " + gpa + ")";
+//    }
+
+    @Override
+    public String toString() {
+        return name + "is a " + this.getGradeLevel() +
+                " with " + numberOfCredits +
+                " credits, and a GPA of " + gpa;
+    }
+
 
     // TODO: Add your custom 'equals' method here. Consider which fields should match in order to call two
     //  Student objects equal.
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Student student = (Student) o;
+        return studentId == student.studentId && numberOfCredits == student.numberOfCredits && Double.compare(student.gpa, gpa) == 0 && Objects.equals(name, student.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, studentId, numberOfCredits, gpa);
+    }
 
     public String getName() {
         return name;
@@ -79,11 +124,15 @@ public class Student {
 
     public static void main(String[] args) {
         Student sally = new Student("Sally",1,1,4.0);
+        Student saul = new Student("Sally",1,1,4.0);
         System.out.println("The Student class works! " + sally.getName() + " is a student!");
         System.out.println(sally);
         sally.addGrade(12, 3.5);
         System.out.println(sally);
         sally.addGrade(25, 3.8);
         System.out.println(sally);
+        System.out.println(sally.getGradeLevel());
+        System.out.println("Equals " + sally.equals(saul));
+        System.out.println(sally.numberOfCredits);
     }
 }
